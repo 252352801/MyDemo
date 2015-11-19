@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>超市花园-超级管理员登陆</title>
+    <meta charset="utf-8" />
+</head>
+<style>
+    .source{
+        margin-left:20px;
+        margin-top:20px;
+        width:190px;
+        height:200px;
+        background:#6dd17b;
+        border:1px solid #fff;
+        border-radius:4px;
+        position:relative;
+        left:500px;
+        float:left;
+        cursor:pointer;
+        text-align:center;
+        line-height:200px;
+        color:#fff;
+        font-size:48px;
+        font-family:"Microsoft YaHei",微软雅黑,"MicrosoftJhengHei",华文细黑,STHeiti,MingLiu ;
+    }
+    .target{
+        width:100px;
+        height:80px;
+        background:#e6e6e6;
+        position:absolute;
+        left:1080px;
+        top:10px;
+        font-family:"Microsoft YaHei",微软雅黑,"MicrosoftJhengHei",华文细黑,STHeiti,MingLiu ;
+        background:#ff6600;
+        color:#fff;
+        line-height:80px;
+        text-align: center;
+    }
+    .content{
+        margin-top:500px;
+        width:1024px;
+    }
+</style>
+<body>
+    <div class="content">
+<div class="source">买
+</div>
+<div class="source">买
+</div>
+<div class="source">买
+</div>
+<div class="source">买
+</div>
+<div class="source">买
+</div>
+ <div class="source">买
+</div>
+<div class="source">买
+</div>
+<div class="source">买
+</div>
+<div class="source">买
+</div>
+<div class="source">买
+</div>
+    </div>
+<div class="target" id="target"> 我的购物车</div>
+</body>
+<script src="jquery.min.js"></script>
+<script>
+   jQuery.prototype.goInto=function(endElem){ 
+        var end_x=endElem.offset().left+endElem.width()/2;//
+        var end_y=endElem.offset().top+endElem.height();
+        var start_x=$(this).offset().left;
+        var start_y=$(this).offset().top;
+        var box=$(this).clone();
+        box.css('position','absolute')
+            .css('left',start_x+'px')
+            .css('top',start_y+'px')
+            .css('margin','0')
+            .css('zIndex','999');
+       $("body").append(box);
+       var width=$(this).width()*1.2;
+       var height=$(this).height()*1.2;       
+       var red_l=start_x-$(this).width()*0.2/2;
+       var red_t=start_y-$(this).height()*0.2/2;
+       box.animate({width:width,height:height,left:red_l,top:red_t},300);
+       box.animate({left:end_x,top:end_y,width:'0px',height:'0px'},500,function(){$(this).remove();});        
+    };
+    $(".source").click(function(){
+        $(this).goInto($("#target"));
+    });
+</script>
+</html>

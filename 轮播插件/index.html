@@ -1,0 +1,304 @@
+<!DOCTYPE html><!--文档声明，遵循html5规范-->
+<html>
+<head>
+    <title>图片轮播</title>
+    <meta charset="utf-8"><!--文档编码-->
+</head>
+<style type="text/css">
+    body,html{
+        width:100%;
+        height:100%;
+        border:0;
+        padding:0;
+        margin:0;
+        overflow-x:hidden;
+    }
+.slideBox{
+    width:300px;
+    height:400px;
+    position:relative;
+    left:10px;
+    top:100px;
+    overflow:hidden;
+    float:left;
+    margin-left:15px;
+}
+.slideBox ul{
+    margin:0;
+    padding:0;
+    position:absolute;
+    left:0px;
+    top:0px;
+}
+.slideBox li{
+    display:block;
+    list-style: none;
+    margin:0;
+    padding:0;
+    width:300px;
+    height:400px;
+    background:#ccc;
+    float:left;
+    position:relative;
+}
+    .slideBox li img{
+        width:100%;
+        height:100%;
+    }
+    .slideBox .prev,.slideBox .next{
+        z-index:999;
+        position:absolute;
+        border:2px solid #666;
+        top:180px;
+        cursor:pointer;
+    }
+    .slideBox .next{
+        left:100%;
+        margin-left:-60px;
+    }
+    .slideBox_indexes{
+        position:absolute;
+        top:80%;
+        background:#ccc;
+    }
+    .slideBox_indexes span{
+        margin-left:10px;
+        margin-right:10px;
+        cursor:pointer;
+    }
+</style>
+<body>
+    <div class="slideBox" id="slideBox1">
+        <ul>
+            <li>
+                <img src="./img/1.jpg" />
+            </li>
+            <li>
+                <img src="./img/2.jpg" />
+            </li>
+            <li>
+                <img src="./img/3.jpg" />
+            </li>
+            <li>
+                <img src="./img/4.jpg" />
+            </li>
+            <li>
+                <img src="./img/5.jpg" />
+            </li>
+        </ul>
+        <div class="slideBox_indexes">
+            <span>0</span>
+            <span>1</span>
+            <span>2</span>
+            <span>3</span>
+            <span>4</span>
+        </div>
+        <a class="prev">上一张</a>
+        <a class="next">下一张</a>
+    </div>
+    <div class="slideBox" id="slideBox2">
+        <ul>
+            <li>
+                <img src="./img/1.jpg" />
+            </li>
+            <li>
+                <img src="./img/2.jpg" />
+            </li>
+            <li>
+                <img src="./img/3.jpg" />
+            </li>
+            <li>
+                <img src="./img/4.jpg" />
+            </li>
+            <li>
+                <img src="./img/5.jpg" />
+            </li>
+        </ul>
+        <div class="slideBox_indexes">
+              <span>0</span>
+              <span>1</span>
+              <span>2</span>
+              <span>3</span>
+              <span>4</span>
+        </div>
+        <a class="prev">上一张</a>
+        <a class="next">下一张</a>
+    </div>
+    <div class="slideBox" id="slideBox3">
+        <ul>
+            <li>
+                <img src="./img/1.jpg" />
+            </li>
+            <li>
+                <img src="./img/2.jpg" />
+            </li>
+            <li>
+                <img src="./img/3.jpg" />
+            </li>
+            <li>
+                <img src="./img/4.jpg" />
+            </li>
+            <li>
+                <img src="./img/5.jpg" />
+            </li>
+        </ul>
+        <div class="slideBox_indexes">
+              <span>0</span>
+              <span>1</span>
+              <span>2</span>
+              <span>3</span>
+              <span>4</span>
+        </div>
+        <a class="prev">上一张</a>
+        <a class="next">下一张</a>
+    </div>
+    <div class="slideBox" id="slideBox4">
+        <ul>
+            <li>
+                <img src="./img/1.jpg" />
+            </li>
+            <li>
+                <img src="./img/2.jpg" />
+            </li>
+            <li>
+                <img src="./img/3.jpg" />
+            </li>
+            <li>
+                <img src="./img/4.jpg" />
+            </li>
+            <li>
+                <img src="./img/5.jpg" />
+            </li>
+        </ul>
+        <div class="slideBox_indexes">
+              <span>0</span>
+              <span>1</span>
+              <span>2</span>
+              <span>3</span>
+              <span>4</span>
+        </div>
+        <a class="prev">上一张</a>
+        <a class="next">下一张</a>
+    </div>
+</body>
+<script type="text/javascript" src="./myFunction.js"></script>
+<script type="text/javascript" src="./tweenMove.js"></script>
+ <script type="text/javascript">
+ function slideBox(param){
+        var obj=param.element;
+        var ul=obj.getElementsByTagName("ul")[0];
+        var li=ul.getElementsByTagName("li");
+        var index=0;//当前图片
+        var w=parseInt(getStyle(li[0],"width"));
+        ul.style.width=2000+'px';
+        var lock=true;
+        var des='R';
+        var rep_speed=200;//切换一次所需时间
+        var rep_timeout=3000;//切换一次所需时间
+        function slide(destination) {
+            var val;
+            var inc;
+            if(destination=='L'){
+                val=w;
+                inc=-1;
+            }else if(destination=='R'){
+                val=-w;
+                inc=1;
+            }
+            lock=false;//获取操作权限
+            tweenMove({
+                element:ul,
+                attr: 'left',//需要改变的属性
+                value:val,//改变的值 可以为正负
+                time: rep_speed,//执行动画的时间
+                moveName: 'Linear',//动画名，默认为Linear
+                moveType: 'easeOut',//动画的缓动方式，默认为easeIn
+                callback: function () {
+                    index+=inc;
+                    lock=true;//释放操作权限
+                }
+            });
+        }
+    function slideSelf(){
+        clearInterval(obj.timer);
+        obj.timer=setTimeout(function(){
+        var val;
+        var inc;
+        if(index==0){
+                des='R';
+        }else if(index==li.length-1){
+            des='L';
+        }
+        if(des=='R'){
+            val=-w;
+            inc=1;
+        }else if(des=='L'){
+            val=w;
+            inc=-1;
+        }
+        lock=false;
+        tweenMove({
+                     element:ul,
+                     attr: 'left',//需要改变的属性
+                     value:val,//改变的值 可以为正负
+                     time:rep_speed,//执行动画的时间
+                     moveName: 'Linear',//动画名，默认为Linear
+                     moveType: 'easeOut',//动画的缓动方式，默认为easeIn
+                     callback: function () {
+                         index+=inc;
+                         lock=true;//释放操作权限
+                         slideSelf();
+                     }
+        }); 
+        },rep_timeout);
+    }
+    if(param.runSelf&&(param.runSelf=='true'||param.runSelf==true)){
+        slideSelf();
+        obj.onmouseover=function(){clearInterval(obj.timer);};
+        obj.onmouseout=function(){slideSelf();};
+    }
+    getByClass('prev',obj)[0].onclick=function(){
+         if(index>=1&&lock){
+             slide("L");
+         }
+     };
+     getByClass('next',obj)[0].onclick=function(){
+         if(index<li.length-1&&lock){
+             slide("R");
+         }
+     };
+     getByClass('slideBox_indexes',obj)[0].onclick=function(e){
+         var e=e|| window.event;
+         var target= e.target|| e.srcElement;
+         if(target.nodeName=='SPAN'){
+             if(lock){
+                 var clk_index=parseInt(target.innerHTML);
+                 var inc=clk_index - index;
+                 lock=false;//获取操作权限
+                 tweenMove({
+                     element:ul,
+                     attr: 'left',//需要改变的属性
+                     value:-inc*w,//改变的值 可以为正负
+                     time:rep_speed,//执行动画的时间
+                     moveName: 'Linear',//动画名，默认为Linear
+                     moveType: 'easeOut',//动画的缓动方式，默认为easeIn
+                     callback: function () {
+                         index+=inc;
+                         lock=true;//释放操作权限
+                     }
+                 });
+             }
+         }
+     };
+ }
+
+/*-----------------------------------------------------------------------*/     
+var sliders=getByClass('slideBox');
+for(var i=0,len=sliders.length;i<len;i++){
+  slideBox({
+     element:sliders[i],
+     runSelf:true
+ });
+}
+</script>
+</html>

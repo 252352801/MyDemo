@@ -1,0 +1,81 @@
+<!DOCTYPE html><!--文档声明，遵循html5规范-->
+<html>
+<head>
+    <title>滚动显示demo</title>
+    <meta charset="utf-8"><!--文档编码-->
+    <meta name="keyword" content=""><!--关键词-->
+    <meta name="description" content=""><!--描述-->
+    <meta name="renderer" content="webkit"> <!--设置双(内)核浏览器（如360等）的渲染模式-->
+</head>
+<style type="text/css">
+    body{
+        height:3000px;
+    }
+    #aside_left{
+        width:120px;
+        height:300px;
+        position:fixed;
+        left:100px;
+        top:300px;
+        border:2px solid #ddd;
+        background:#eee;
+        z-index:10;
+        opacity:0;
+        transition:opacity 0.9s;
+    }
+    #mark{
+        width:500px;
+        position:relative;
+        left:600px;
+        top:1000px;
+        border:2px solid red;
+        margin-bottom:1000px;
+        background:#ff6700;
+    }
+</style>
+<body>
+    <div id="aside_left">我是左边栏，滚动到指定位置时才会出现</div>
+    <div id="mark">我是参照，当我出现在某一位置时，左边栏会出现</div>
+</body>
+ <script type="text/javascript">
+  /*获取dom相对浏览器的位置*/
+function getPosition(obj){
+         var topValue= 0,leftValue= 0;
+         while(obj){
+             leftValue+= obj.offsetLeft;
+             topValue+= obj.offsetTop;
+             obj= obj.offsetParent;
+         }
+         return {left:leftValue,top:topValue};
+ }
+
+/*
+ *滚动到某个目标出现时，指定元素显示
+ * @author  WQY
+ * @param   <string>    targetElem  要显示的元素id
+ * @param   <string>    relativeElem    相对的元素id
+ * @param   <string>    y    relativeElem离窗口顶端距离y时targetElem出现
+*/
+function showWhen(targetElem,relativeElem,y){
+    var t_elem=document.getElementById(targetElem);
+    var r_elem=document.getElementById(relativeElem);
+    var y=getPosition(r_elem).top-y-50; //50为调节的值  可任意
+    window.addEventListener('scroll',onScroll);
+    console.log('参照位置：',y);
+    function onScroll(){
+        var scrollHeight =(document.body.scrollTop==0)?document.documentElement.scrollTop:document.body.scrollTop;//滚动的高度
+        console.log(scrollHeight);
+        if(scrollHeight>=y){
+/*            t_elem.style.display='block';*/
+            t_elem.style.opacity='1';
+        }else{
+            t_elem.style.opacity='0';
+/*            t_elem.style.display='none';*/
+        }
+    }
+}
+</script>
+<script>
+    showWhen('aside_left','mark',300);
+</script>
+</html>
